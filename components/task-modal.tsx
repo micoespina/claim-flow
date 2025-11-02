@@ -13,6 +13,7 @@ interface TaskModalProps {
 
 export function TaskModal({ task, onClose, onUpdate }: TaskModalProps) {
   const [description, setDescription] = useState(task.description)
+  const [dueDate, setDueDate] = useState(task.dueDate)
   const [showCommentInput, setShowCommentInput] = useState(false)
   const [comments, setComments] = useState([
     {
@@ -76,14 +77,16 @@ export function TaskModal({ task, onClose, onUpdate }: TaskModalProps) {
 
   return (
     <>
-      {/* Overlay */}
-      <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
+      <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4" onClick={onClose} />
 
-      {/* Modal */}
-      <div className="fixed right-0 top-0 h-full w-96 bg-card border-l border-border z-50 flex flex-col shadow-lg">
+      {/* Centered Modal */}
+      <div
+        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[90vh] bg-card border border-border z-50 flex flex-col rounded-lg shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
-          <h2 className="text-xl font-bold text-foreground">Task Details</h2>
+          <h2 className="text-xl font-bold text-foreground">{task.id}</h2>
           <button onClick={onClose} className="p-1 hover:bg-muted rounded-lg transition-colors">
             <X className="w-5 h-5 text-foreground" />
           </button>
@@ -186,7 +189,8 @@ export function TaskModal({ task, onClose, onUpdate }: TaskModalProps) {
                   </label>
                   <input
                     type="date"
-                    value={task.dueDate}
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
                     className="w-full px-3 py-2 rounded-lg bg-background border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
